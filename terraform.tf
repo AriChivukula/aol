@@ -14,7 +14,7 @@ resource "aws_vpc" "VPC" {
   cidr_block = "192.168.0.0/16"
   enable_dns_hostnames = true
   enable_dns_support = true
-  tags {
+  tags = {
     Name = "${var.NAME}"
   }
 }
@@ -27,7 +27,7 @@ resource "aws_subnet" "PUBLIC_SUBNETS" {
   cidr_block = "${cidrsubnet(aws_vpc.VPC.cidr_block, 8, count.index)}"
   vpc_id = "${aws_vpc.VPC.id}"
   availability_zone = "${data.aws_availability_zones.AZS.names[count.index]}"
-  tags {
+  tags = {
     Name = "${var.NAME}"
     Type = "Public"
   }
@@ -36,7 +36,7 @@ resource "aws_subnet" "PUBLIC_SUBNETS" {
 resource "aws_internet_gateway" "INTERNET" {
   vpc_id = "${aws_vpc.VPC.id}"
 
-  tags {
+  tags = {
     Name = "${var.NAME}"
   }
 }
@@ -49,7 +49,7 @@ resource "aws_route" "PUBLIC_ROUTES" {
 
 resource "aws_route_table" "INTERNET_TABLE" {
   vpc_id = "${aws_vpc.VPC.id}"
-  tags {
+  tags = {
     Name = "${var.NAME}"
     Type = "Public"
   }
@@ -69,7 +69,7 @@ resource "aws_nat_gateway" "NAT" {
   allocation_id = "${aws_eip.IP.id}"
   subnet_id = "${aws_subnet.PUBLIC_SUBNETS.0.id}"
   
-  tags {
+  tags = {
     Name = "${var.NAME}"
   }
 }
@@ -80,7 +80,7 @@ resource "aws_subnet" "PRIVATE_SUBNETS" {
   vpc_id = "${aws_vpc.VPC.id}"
   availability_zone = "${data.aws_availability_zones.AZS.names[count.index]}"
 
-  tags {
+  tags = {
     Name = "${var.NAME}"
     Type = "Private"
   }
@@ -95,7 +95,7 @@ resource "aws_route" "BRIDGE_ROUTE" {
 resource "aws_route_table" "NAT_TABLE" {
   vpc_id = "${aws_vpc.VPC.id}"
 
-  tags {
+  tags = {
     Name = "${var.NAME}"
     Type = "Private"
   }
