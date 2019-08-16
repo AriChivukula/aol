@@ -1,8 +1,0 @@
-dist: xenial
-if: type = push
-script:
-- bash terraform.sh
-deploy:
-  provider: script
-  skip_cleanup: true
-  script: ./terraform apply -auto-approve .
