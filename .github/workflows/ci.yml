@@ -4,7 +4,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Setup and test terraform
+    - name: Setup and Test
       run: bash terraform.sh
       env:
         AWS_DEFAULT_REGION: us-east-1
